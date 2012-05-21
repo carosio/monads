@@ -1,0 +1,9 @@
+*.beam
+/ebin/*.app
+/dist/
+/doc/*
+!/doc/overview.edoc
+/test-log/
+*.*~
+/request-logs/
+/old/*
