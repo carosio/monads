@@ -16,8 +16,8 @@
 -type error()               :: {error, atom()}.
 -type return(Type)          :: {ok, Type} | error().
 -type state()               :: [any()] | {[any()], [any()]}.
--type monad_stateless(Type) :: {ok, multiple_info, [return(Type)], {integer(), integer()}} | error().
--type monad_state(Type)     :: {ok, multiple_info, [return(Type)], {integer(), integer()}, state()} | error().
+-type monad_stateless(Type) :: {multiple_info, [return(Type)], {integer(), integer()}} | error().
+-type monad_state(Type)     :: {multiple_info, [return(Type)], {integer(), integer()}, state()} | error().
 -type monad(Type)           :: monad_stateless(Type) | monad_state(Type).
 
 -export_type([monad/1]).

@@ -36,6 +36,7 @@ zipwithfold3b(Fun, [L1|List1], [L2|List2], [L3|List3], Acc1, Acc2) ->
     zipwithfold3b(Fun, List1, List2, List3, [NAcc1|Acc1], NAcc2).
 
 
+foldl2(_Fun, Akk, [], []) -> Akk;
 foldl2(Fun, Akk, [L1|List1], [L2|List2]) ->
     foldl2(Fun, Fun(L1, L2, Akk), List1, List2).
 
