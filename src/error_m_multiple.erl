@@ -56,6 +56,8 @@ init({multiple, List, State}) ->
     {normal, {OK, NState}, All};
 init({error, Error}) ->
     {error, Error};
+init({return, Elem}) ->
+    init(return(Elem));
 init(Monad) ->
     {unknown, Monad}.
 

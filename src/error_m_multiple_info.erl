@@ -57,6 +57,8 @@ init({multiple_info, List, Info, State}) ->
     {normal, {OK, NState}, {All, Info}};
 init({error, Error}) ->
     {error, Error};
+init({return, Elem}) ->
+    init(return(Elem));
 init(Monad) ->
     {unknown, Monad}.
 

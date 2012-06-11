@@ -41,6 +41,7 @@ fail(Error) -> {error, Error}.
 init({ok, Elem})        -> {normal, Elem, null};
 init({ok, Elem, State}) -> {normal, {Elem, State}, null};
 init({error, Error})    -> {error, Error};
+init({return, Elem})    -> init(return(Elem));
 init(Monad)             -> {unknown, Monad}.
 
 -spec finish(monad(Type), any()) -> monad(Type).

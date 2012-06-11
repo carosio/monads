@@ -9,7 +9,8 @@
 
 -module(monads_help).
 
--export([unzipwith/2, zipwithfold/4, zipwithfold3/5, foldr2/4, foldr3/5]).
+-export([unzipwith/2, zipwithfold/4, zipwithfold3/5]).
+-export([foldl2/4, foldr2/4, foldl3/5, foldr3/5, map2/3]).
 
 unzipwith(Fun, List) ->
     lists:foldr(fun(Elem, {AL, BL}) ->
@@ -49,4 +50,8 @@ foldl3(Fun, Akk, [L1|List1], [L2|List2], [L3|List3]) ->
 
 foldr3(Fun, Akk, List1, List2, List3) ->
     foldl3(Fun, Akk, lists:reverse(List1), lists:reverse(List2), lists:reverse(List3)).
+
+
+map2(Fun, List1, List2) ->
+    lists:unzip(lists:zipwith(Fun, List1, List2)).
 
