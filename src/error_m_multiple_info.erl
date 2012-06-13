@@ -34,6 +34,8 @@ return({ok, Elem}) ->
     {multiple_info, [{ok, Elem}], {1, 0}};
 return({error, Error}) ->
     {error, Error};
+return({multiple, List}) ->
+    return(List);
 return(List) when is_list(List) ->
     {NList, Info} = lists:mapfoldl(fun
         ({ok, Elem}, {Count, Fail})     -> {{ok, Elem}, {Count+1, Fail}};
