@@ -36,6 +36,8 @@ return({error, Error}) ->
     {error, Error};
 return({multiple, List}) ->
     return(List);
+return({ok_multiple_info, List, {Count, Succeeded}}) ->
+    {multiple_info, List, {Count, Count-Succeeded}};
 return(List) when is_list(List) ->
     {NList, Info} = lists:mapfoldl(fun
         ({ok, Elem}, {Count, Fail})     -> {{ok, Elem}, {Count+1, Fail}};
@@ -66,7 +68,11 @@ init(Monad) ->
 
 -spec finish(monad(Type), any()) -> monad(Type).
 finish({multiple_info, List, {_Count, NFail}}, {All, {Count, Fail}}) ->
-    {multiple_info, join(All, List), {Count, Fail+NFail}};
+    {NList, Excess} = join(All, List),
+    {multiple_info, NList, {Count-Excess, Fail+NFail}};
+finish({ok_multiple_info, List, {NCount, OK}}, {All, {Count, Fail}}) ->
+    {NList, Excess} = join(All, List),
+    {multiple_info, NList, {Count-Excess, Fail+NCount-OK}};
 finish({error, Error}, _) ->
     {error, Error};
 finish(Monad, _) ->
@@ -177,11 +183,12 @@ split(XObjs, State) ->
     end, {[], [], []}, XObjs, State).
 
 join(All, New) ->
-    {[], Acc} = lists:foldr(fun
-        (ok, {[N|NL], Acc})         -> {NL, [N|Acc]};
-        ({error, Error}, {NL, Acc}) -> {NL, [{error, Error}|Acc]}
-    end, {lists:reverse(New), []}, All),
-    Acc.
+    {[], Acc, Excess} = lists:foldr(fun
+        (ok, {[N|NL], Acc, Excess})         -> {NL, [N|Acc], Excess};
+        (ok, {[], Acc, Excess})             -> {[], Acc, Excess+1};
+        ({error, Error}, {NL, Acc, Excess}) -> {NL, [{error, Error}|Acc], Excess}
+    end, {lists:reverse(New), [], 0}, All),
+    {Acc, Excess}.
 
 rep(List, RepList) ->
     lists:zipwith(fun
