@@ -1,7 +1,7 @@
-% vim: filetype=erlang
 {application, monads, [
     {description, "Monads for Erlang"},
     {applications, [kernel, stdlib]},
+    {included_applications, [erlando]},
     {registered, []},
     {env,[]}
 ]}.
