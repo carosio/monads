@@ -3,5 +3,6 @@
     {applications, [kernel, stdlib]},
     {included_applications, [erlando]},
     {registered, []},
+    {vsn, git},
     {env,[]}
 ]}.
